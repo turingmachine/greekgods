@@ -1,0 +1,4 @@
+/dialogflow.json
+/tmp/*
+/media/
+*.pyc
