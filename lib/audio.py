@@ -37,7 +37,7 @@ def audio_int(num_samples=50):
     with noalsaerr():
         p = pyaudio.PyAudio()
 
-    stream = p.open(format=pyaudio.paInt16,
+    stream = p.open(format=FORMAT,
                     channels=CHANNELS,
                     rate=RATE,
                     input=True,

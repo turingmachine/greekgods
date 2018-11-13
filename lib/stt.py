@@ -1,8 +1,8 @@
-import dialogflow
+import dialogflow_v2 as dialogflow
+import time
 
 def detect_intent_audio(project_id, session_id, audio_file_path, language_code):
-    import dialogflow_v2 as dialogflow
-
+    start = time.time()
     session_client = dialogflow.SessionsClient()
     audio_encoding = dialogflow.enums.AudioEncoding.AUDIO_ENCODING_FLAC
     sample_rate_hertz = 44100
@@ -21,7 +21,8 @@ def detect_intent_audio(project_id, session_id, audio_file_path, language_code):
         input_audio=input_audio)
 
     return {
-   		"query": response.query_result.query_text,
-      "intent": response.query_result.intent.display_name,
-      "confidence": response.query_result.intent_detection_confidence,
+        "query": response.query_result.query_text,
+        "intent": response.query_result.intent.display_name,
+        "confidence": response.query_result.intent_detection_confidence,
+        "response_time": time.time() - start, 
     }
