@@ -27,7 +27,7 @@ PREV_AUDIO = 1  # Previous audio (in seconds) to prepend. When noise
                   # of the phrase.
 
 
-def audio_int(num_samples=50):
+def audio_int(num_samples=100):
     """ Gets average audio intensity of your mic sound. You can use it to get
         average intensities while you're talking and/or silent. The average
         is the avg of the 20% largest intensities recorded.
@@ -118,10 +118,10 @@ def save_speech(data, p):
     wf = wave.open(filename + '.wav', 'wb')
     wf.setnchannels(CHANNELS)
     wf.setsampwidth(p.get_sample_size(pyaudio.paInt16))
-    wf.setframerate(44100)
+    wf.setframerate(RATE)
     wf.writeframes(data)
     wf.close()
-    os.system('flac ' + filename + '.wav')
+    os.system('flac -s ' + filename + '.wav')
     os.remove(filename + '.wav')
     filename = filename.split('.')[0] + '.flac'
     return filename
