@@ -47,6 +47,7 @@ def kill_player(process):
 def kill_subprocesses_and_exit(*args):
     global loop_player
     os.killpg(loop_player.pid, signal.SIGTERM)
+    os.system("killall -9 mplayer")
     sys.exit(0)
 
 def get_random_intent_media_path(intent):
