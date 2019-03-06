@@ -23,12 +23,13 @@ def play_clip(filename):
     os.system(cmd)
 
 def play_loop():
-    print("play loop %s" % filename)
-    if not get_random_intent_media_path(INTENT_LOOP):
+    loop_media = get_random_intent_media_path(INTENT_LOOP)
+    if not loop_media:
         print("loop media not found")
         print("sleeping for 5 seconds")
         time.sleep(5)
         return
+    print("play loop %s" % loop_media)
     return subprocess.Popen(
         MPLAYER + ['-loop', '0', get_random_intent_media_path(INTENT_LOOP)],
         stdout=subprocess.PIPE,
