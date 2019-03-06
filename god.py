@@ -17,8 +17,10 @@ if len(sys.argv) > 1 and sys.argv[1] == 'test':
 
 def play_clip(filename):
     print("play clip %s" % filename)
-    cmd = list(MPLAYER).push(filename)
-    os.system(" ".join(cmd))
+    cmd = list(MPLAYER)
+    cmd.append(filename)
+    cmd = " ".join(cmd)
+    os.system(cmd)
 
 def play_loop():
     print("play loop %s" % filename)
