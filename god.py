@@ -10,13 +10,19 @@ INTENT_FALLBACK = 'fallback'
 CONFIDENCE_TRESHOLD = 0.6
 MPLAYER=['mplayer', '-fs', '-fixed-vo', '-really-quiet']
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "dialogflow.json"
+import google.cloud.logging
+client = google.cloud.logging.Client()
+client.setup_logging()
+import logging
+def log(msg):
+    logging.info("{}: {}".format(os.uname()[1], msg))
 
 audio_int(150)
 if len(sys.argv) > 1 and sys.argv[1] == 'test':
     sys.exit(0)
 
 def play_clip(filename):
-    print("play clip %s" % filename)
+    log("play clip %s" % filename)
     cmd = list(MPLAYER)
     cmd.append(filename)
     cmd = " ".join(cmd)
@@ -29,7 +35,7 @@ def play_loop():
         print("sleeping for 5 seconds")
         time.sleep(5)
         return
-    print("play loop %s" % loop_media)
+    log("play loop %s" % loop_media)
     return subprocess.Popen(
         MPLAYER + ['-loop', '0', get_random_intent_media_path(INTENT_LOOP)],
         stdout=subprocess.PIPE,
@@ -67,10 +73,11 @@ signal.signal(signal.SIGINT, kill_subprocesses_and_exit)
 
 while True:
     filename = listen_for_speech(num_phrases=1)
+    log("speech detected")
     response = detect_intent_audio('newagent-7404f', int(time.time()), filename, 'de')
     os.remove(filename)
 
-    print(response)
+    log(response)
     kill_player(loop_player)
     if response['confidence'] > CONFIDENCE_TRESHOLD \
     and get_random_intent_media_path(response['intent']):
