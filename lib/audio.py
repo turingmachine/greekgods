@@ -43,8 +43,8 @@ def audio_int(num_samples=100):
                     input=True,
                     frames_per_buffer=CHUNK)
 
-    values = [math.sqrt(abs(audioop.avg(stream.read(CHUNK), 4))) 
-              for x in range(num_samples)] 
+    values = [math.sqrt(abs(audioop.avg(stream.read(CHUNK), 4)))
+              for x in range(num_samples)]
     values = sorted(values, reverse=True)
     r = sum(values[:int(num_samples * 0.2)]) / int(num_samples * 0.2)
     print " Finished "
@@ -56,11 +56,11 @@ def audio_int(num_samples=100):
 
 def listen_for_speech(threshold=THRESHOLD, num_phrases=-1):
     """
-    Listens to Microphone, extracts phrases from it and sends it to 
-    Google's TTS service and returns response. a "phrase" is sound 
+    Listens to Microphone, extracts phrases from it and sends it to
+    Google's TTS service and returns response. a "phrase" is sound
     surrounded by silence (according to threshold). num_phrases controls
-    how many phrases to process before finishing the listening process 
-    (-1 for infinite). 
+    how many phrases to process before finishing the listening process
+    (-1 for infinite).
     """
 
     with noalsaerr():
@@ -98,7 +98,7 @@ def listen_for_speech(threshold=THRESHOLD, num_phrases=-1):
             # Reset all
             started = False
             slid_win = deque(maxlen=SILENCE_LIMIT * rel)
-            prev_audio = deque(maxlen=0.5 * rel) 
+            prev_audio = deque(maxlen=0.5 * rel)
             audio2send = []
             n -= 1
             print "Listening ..."
@@ -113,7 +113,7 @@ def listen_for_speech(threshold=THRESHOLD, num_phrases=-1):
 
 
 def save_speech(data, p):
-    filename = 'tmp/output_'+str(int(time.time()))
+    filename = '/tmp/output_'+str(int(time.time()))
     data = ''.join(data)
     wf = wave.open(filename + '.wav', 'wb')
     wf.setnchannels(CHANNELS)
@@ -125,4 +125,3 @@ def save_speech(data, p):
     os.remove(filename + '.wav')
     filename = filename.split('.')[0] + '.flac'
     return filename
-
