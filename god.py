@@ -16,18 +16,17 @@ if len(sys.argv) > 1 and sys.argv[1] == 'test':
     sys.exit(0)
 
 def play_clip(filename):
+    print("play clip %s" % filename)
     cmd = list(MPLAYER).push(filename)
-    print(" ".join(cmd))
     os.system(" ".join(cmd))
 
 def play_loop():
-    print("play loop")
+    print("play loop %s" % filename)
     if not get_random_intent_media_path(INTENT_LOOP):
         print("loop media not found")
         print("sleeping for 5 seconds")
         time.sleep(5)
         return
-    print(get_random_intent_media_path(INTENT_LOOP))
     return subprocess.Popen(
         MPLAYER + ['-loop', '0', get_random_intent_media_path(INTENT_LOOP)],
         stdout=subprocess.PIPE,
