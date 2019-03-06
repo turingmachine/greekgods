@@ -4,7 +4,7 @@ import time, os, sys
 import subprocess, signal
 import random
 
-INTENT_MEDIA_PATH = '/media'
+INTENT_MEDIA_PATH = 'media'
 INTENT_LOOP = 'loop'
 INTENT_FALLBACK = 'fallback'
 CONFIDENCE_TRESHOLD = 0.6
@@ -16,9 +16,9 @@ if len(sys.argv) > 1 and sys.argv[1] == 'test':
     sys.exit(0)
 
 def play_clip(filename):
-    cmd = 'mplayer -fs -fixed-vo -really-quiet %s' % filename
-    print(cmd)
-    os.system(cmd)
+    cmd = list(MPLAYER).push(filename)
+    print(" ".join(cmd))
+    os.system(" ".join(cmd))
 
 def play_loop():
     print("play loop")
@@ -27,6 +27,7 @@ def play_loop():
         print("sleeping for 5 seconds")
         time.sleep(5)
         return
+    print(get_random_intent_media_path(INTENT_LOOP))
     return subprocess.Popen(
         MPLAYER + ['-loop', '0', get_random_intent_media_path(INTENT_LOOP)],
         stdout=subprocess.PIPE,
@@ -52,7 +53,7 @@ def get_random_intent_media_path(intent):
     try:
         intent_media_files = os.listdir(os.path.join(INTENT_MEDIA_PATH, intent))
         if len(intent_media_files):
-            return os.path.join(INTENT_MEDIA_PATH, random.choice(intent_media_files))
+            return os.path.join(INTENT_MEDIA_PATH, intent, random.choice(intent_media_files))
         else:
             return False
     except OSError:
